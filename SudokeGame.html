@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Sudoke Game</title>
+        <script src="scripts.js" async></script>
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+    <body>
+        <div class="background">
+            <div class="wrapper">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td><input id="0-0" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="0-1" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="0-2" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="0-3" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="0-4" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="0-5" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="0-6" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="0-7" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="0-8" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                        </tr>
+                        <tr>
+                            <td><input id="1-0" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="1-1" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="1-2" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="1-3" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="1-4" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="1-5" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="1-6" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="1-7" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="1-8" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                        </tr>
+                        <tr class="row3">
+                            <td><input id="2-0" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="2-1" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="2-2" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="2-3" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="2-4" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="2-5" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="2-6" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="2-7" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="2-8" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                        </tr>
+                        <tr>
+                            <td><input id="3-0" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="3-1" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="3-2" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="3-3" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="3-4" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="3-5" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="3-6" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="3-7" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="3-8" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                        </tr>
+                        <tr>
+                            <td><input id="4-0" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="4-1" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="4-2" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="4-3" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="4-4" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="4-5" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="4-6" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="4-7" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="4-8" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                        </tr>
+                        <tr>
+                            <td><input id="5-0" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="5-1" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="5-2" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="5-3" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="5-4" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="5-5" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="5-6" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="5-7" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="5-8" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                        </tr>
+                        <tr>
+                            <td><input id="6-0" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="6-1" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="6-2" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="6-3" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="6-4" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="6-5" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="6-6" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="6-7" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="6-8" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                        </tr>
+                        <tr>
+                            <td><input id="7-0" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="7-1" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="7-2" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="7-3" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="7-4" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="7-5" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="7-6" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="7-7" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="7-8" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                        </tr>
+                        <tr>
+                            <td><input id="8-0" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="8-1" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="8-2" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="8-3" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="8-4" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="8-5" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="8-6" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="8-7" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                            <td><input id="8-8" type="text" maxlength="1" onkeydown="return isNumberKey(event)"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button class="checkBtn" id="checkBtn">
+                    Check
+                </button>
+                <button class="solveBtn" id="solveBtn">
+                    Solve
+                </button>
+                <button class="resetBtn" id="resetBtn">
+                    Reset
+                </button>
+                
+                <div class="text">
+                    <div class="attempts" id="attempts">
+                        Incorrect attempts: 0
+                    </div>
+                    <div class="score" id="score">
+                        Solved puzzles: 0
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+</html>
+
