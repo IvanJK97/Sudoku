@@ -35,11 +35,13 @@ function renderAnswer(originalBoard, solvedBoard) {
                 // Incorrect answer, print it red
                 document.getElementById(elemName).value = solvedBoard[row][col];
                 document.getElementById(elemName).style.color = "red";
+                document.getElementById(elemName).style.backgroundColor = "rgb(236, 236, 236)"; // can't edit answer by changing it to another color
                 document.getElementById(elemName).readOnly = true;
             } else {
                 // If it is the same and was not on original board, then it is correct user input
                 if (originalBoard[row][col] == ".") {
                     document.getElementById(elemName).style.color = "limegreen";
+                    document.getElementById(elemName).style.backgroundColor = "rgb(236, 236, 236)";
                     document.getElementById(elemName).readOnly = true;
                 }
             }
@@ -89,21 +91,21 @@ function generateBoard() {
         randomFirstRow.push("" + randomInt);
     }
     // console.log(randomFirstRow);
+
+    // let secondRow = [".", ".", ".", ".", ".", ".", ".", ".", "."];
+    // let outerArray = [randomFirstRow, secondRow]; // Initial seed of random first two rows
+    // solveSudoku(outerArray);
+    // console.log(outerArray);
     
     let outerArray = [];
     outerArray.push(randomFirstRow);
     for (let i = 0; i < 8; i++) {
-        outerArray.push([".", ".", ".", ".", ".", ".", ".", ".", "."])
+        outerArray.push([".", ".", ".", ".", ".", ".", ".", ".", "."]);
     }
     solveSudoku(outerArray);
 
     // 2 Solutions sudoku
     // solveSudoku2([["2","9","5","7","4","3","8","6","1"],["4","3","1","8","6","5","9",".","."],["8","7","6","1","9","2","5","4","3"],["3","8","7","4","5","9","2","1","6"],["6","1","2","3","8","7","4","9","5"],["5","4","9","2","1","6","7","3","8"],["7","6","3","5","2","4","1","8","9"],["9","2","8","6","7","1","3","5","4"],["1","5","4","9","3","8","6",".","."]]);
-    let cheats = [];
-    for (let i = 0; i < outerArray.length; i++) {
-        cheats.push([...outerArray[i]]);
-    }
-    console.log(cheats);
 
     // Remove spaces from solved sudoku - ranges from 45 - 64, Need at least 17 spaces
     let randomRemovals = Math.floor(Math.random() * (60 - 45) + 45);
@@ -122,6 +124,13 @@ function generateBoard() {
         // console.log(randomRow, randomCol);
         outerArray[randomRow][randomCol] = ".";
     }
+
+    let cheats = [];
+    for (let i = 0; i < outerArray.length; i++) {
+        cheats.push([...outerArray[i]]);
+    }
+    solveSudoku(cheats);
+    console.log(cheats);
     // console.log(randomRemovals, outerArray);
     return outerArray;
 }
@@ -157,6 +166,8 @@ function checkBoardAndUpdate() {
         document.getElementById("score").innerHTML = strArr[0] + ": " + newScore;
         // Prevent player from checking again once it is valid
         document.getElementById("checkBtn").disabled = true;
+        document.getElementById("solveBtn").disabled = true;
+        alert("You solved it!");
     } else {
         // Wrong solution, update attempts
         let str = document.getElementById("attempts").innerHTML;
@@ -164,6 +175,7 @@ function checkBoardAndUpdate() {
         let attempts = strArr[1];
         let newAttempts = parseInt(attempts) + 1;
         document.getElementById("attempts").innerHTML = strArr[0] + ": " + newAttempts;
+        alert("Please try again.");
     }
 }
 
