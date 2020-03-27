@@ -91,11 +91,6 @@ function generateBoard() {
         randomFirstRow.push("" + randomInt);
     }
     // console.log(randomFirstRow);
-
-    // let secondRow = [".", ".", ".", ".", ".", ".", ".", ".", "."];
-    // let outerArray = [randomFirstRow, secondRow]; // Initial seed of random first two rows
-    // solveSudoku(outerArray);
-    // console.log(outerArray);
     
     let outerArray = [];
     outerArray.push(randomFirstRow);
@@ -104,54 +99,51 @@ function generateBoard() {
     }
     solveSudoku(outerArray);
 
-    // 2 Solutions sudoku
-    // solveSudoku2([["2","9","5","7","4","3","8","6","1"],["4","3","1","8","6","5","9",".","."],["8","7","6","1","9","2","5","4","3"],["3","8","7","4","5","9","2","1","6"],["6","1","2","3","8","7","4","9","5"],["5","4","9","2","1","6","7","3","8"],["7","6","3","5","2","4","1","8","9"],["9","2","8","6","7","1","3","5","4"],["1","5","4","9","3","8","6",".","."]]);
-
-    let cheats = [];
-    let cheats2 = [];
-    for (let i = 0; i < outerArray.length; i++) {
-        cheats.push([...outerArray[i]]);
-        cheats2.push([...outerArray[i]]);
-    }
-
-    // Remove spaces from solved sudoku - ranges from 45 - 64, Need at least 17 spaces
+    // Remove spaces from solved sudoku; Need at least 17 spaces
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
-    let randomRemovals = Math.floor(Math.random() * (60 - 50 + 1) + 50); // random int btw 50 to 60 inclusive
+    // let randomRemovals = Math.floor(Math.random() * (60 - 50 + 1) + 50); // random int btw 50 to 60 inclusive
+    let randomRemovals = 53; // Always remove 53 squares, leaving 28 squares
     let removalsMap = {};
     for (let i = 0; i < randomRemovals; i++) {
         let ret = findUniqueRemovals(removalsMap)
-        let temp = cheats2[ret.randomRow][ret.randomCol];
-        cheats2[ret.randomRow][ret.randomCol] = ".";
+        let temp = outerArray[ret.randomRow][ret.randomCol];
+        outerArray[ret.randomRow][ret.randomCol] = ".";
         let counter = 0;
         let shouldSet = true;
-        while (findAllSolutions(cheats2).solutions > 1) {
-            console.log("ran");
-            cheats2[ret.randomRow][ret.randomCol] = temp;
-            if (i > 53 && counter > 8) {
-                console.log("here");
-                shouldSet = false;
-                break;
-            }
-            ret = findUniqueRemovals(removalsMap)
-            temp = cheats2[ret.randomRow][ret.randomCol];
-            cheats2[ret.randomRow][ret.randomCol] = ".";
+        while (findAllSolutions(outerArray).solutions > 1) {
+            console.log("> 1 solution found, recalculating...");
+            outerArray[ret.randomRow][ret.randomCol] = temp;
+            // if (i > 54 && counter > 8) {
+            //     console.log("Break");
+            //     shouldSet = false;
+            //     break;
+            // }
+            if (counter > 40) {
+                window.location.reload(false); // Refresh the page
+            } 
+            ret = findUniqueRemovals(removalsMap);
+            temp = outerArray[ret.randomRow][ret.randomCol];
+            outerArray[ret.randomRow][ret.randomCol] = ".";
             counter++;
         }
         console.log(i);
+
         if (shouldSet) {
             let str = ret.randomRow + "," + ret.randomCol;
             removalsMap[str] = 1;
-            // console.log(randomRow, randomCol);
-            outerArray[ret.randomRow][ret.randomCol] = ".";
-            cheats[ret.randomRow][ret.randomCol] = ".";
+            // outerArray[ret.randomRow][ret.randomCol] = ".";
         } else {
             break;
         }
     }
 
+    let cheats = [];
+    for (let i = 0; i < outerArray.length; i++) {
+        cheats.push([...outerArray[i]]);
+    }
+
     solveSudoku(cheats);
     console.log(cheats);
-    // console.log(randomRemovals, outerArray);
     return outerArray;
 }
 
@@ -186,7 +178,14 @@ function setBoard() {
     renderBoard(board);
     document.getElementById("checkBtn").disabled = false;
     document.getElementById("solveBtn").disabled = false;
+    document.getElementById("resetBtn").disabled = true;
+    setTimeout(enableReset, 7000); // Re-enable reset button after 7 seconds to prevent abuse
     return board;
+}
+
+// Re-enable reset button
+function enableReset() {
+    document.getElementById("resetBtn").disabled = false;
 }
 
 function checkBoardAndUpdate() {
