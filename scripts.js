@@ -107,32 +107,65 @@ function generateBoard() {
     // 2 Solutions sudoku
     // solveSudoku2([["2","9","5","7","4","3","8","6","1"],["4","3","1","8","6","5","9",".","."],["8","7","6","1","9","2","5","4","3"],["3","8","7","4","5","9","2","1","6"],["6","1","2","3","8","7","4","9","5"],["5","4","9","2","1","6","7","3","8"],["7","6","3","5","2","4","1","8","9"],["9","2","8","6","7","1","3","5","4"],["1","5","4","9","3","8","6",".","."]]);
 
-    // Remove spaces from solved sudoku - ranges from 45 - 64, Need at least 17 spaces
-    let randomRemovals = Math.floor(Math.random() * (60 - 45) + 45);
-    let uniqueRemovals = {};
-    for (let i = 0; i < randomRemovals; i++) {
-        let randomRow = Math.floor(Math.random() * (9)); // Pick between 0 - 9
-        let randomCol = Math.floor(Math.random() * (9)); // Pick between 0 - 9
-        let str = randomRow + "," + randomCol;
-        // Make sure remove coordinate is new
-        while (str in uniqueRemovals) {
-            randomRow = Math.floor(Math.random() * (9)); // Pick between 0 - 9
-            randomCol = Math.floor(Math.random() * (9)); // Pick between 0 - 9
-            str = randomRow + "," + randomCol;
-        }
-        uniqueRemovals[str] = 1;
-        // console.log(randomRow, randomCol);
-        outerArray[randomRow][randomCol] = ".";
-    }
-
     let cheats = [];
+    let cheats2 = [];
     for (let i = 0; i < outerArray.length; i++) {
         cheats.push([...outerArray[i]]);
+        cheats2.push([...outerArray[i]]);
     }
+
+    // Remove spaces from solved sudoku - ranges from 45 - 64, Need at least 17 spaces
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+    let randomRemovals = Math.floor(Math.random() * (60 - 50 + 1) + 50); // random int btw 50 to 60 inclusive
+    let removalsMap = {};
+    for (let i = 0; i < randomRemovals; i++) {
+        let ret = findUniqueRemovals(removalsMap)
+        let temp = cheats2[ret.randomRow][ret.randomCol];
+        cheats2[ret.randomRow][ret.randomCol] = ".";
+        let counter = 0;
+        let shouldSet = true;
+        while (findAllSolutions(cheats2).solutions > 1) {
+            console.log("ran");
+            cheats2[ret.randomRow][ret.randomCol] = temp;
+            if (i > 53 && counter > 8) {
+                console.log("here");
+                shouldSet = false;
+                break;
+            }
+            ret = findUniqueRemovals(removalsMap)
+            temp = cheats2[ret.randomRow][ret.randomCol];
+            cheats2[ret.randomRow][ret.randomCol] = ".";
+            counter++;
+        }
+        console.log(i);
+        if (shouldSet) {
+            let str = ret.randomRow + "," + ret.randomCol;
+            removalsMap[str] = 1;
+            // console.log(randomRow, randomCol);
+            outerArray[ret.randomRow][ret.randomCol] = ".";
+            cheats[ret.randomRow][ret.randomCol] = ".";
+        } else {
+            break;
+        }
+    }
+
     solveSudoku(cheats);
     console.log(cheats);
     // console.log(randomRemovals, outerArray);
     return outerArray;
+}
+
+function findUniqueRemovals(removalsMap) {
+    let randomRow = Math.floor(Math.random() * (9)); // Pick between 0 - 9
+    let randomCol = Math.floor(Math.random() * (9)); // Pick between 0 - 9
+    let str = randomRow + "," + randomCol;
+    // Make sure remove coordinate is new
+    while (str in removalsMap) {
+        randomRow = Math.floor(Math.random() * (9)); // Pick between 0 - 9
+        randomCol = Math.floor(Math.random() * (9)); // Pick between 0 - 9
+        str = randomRow + "," + randomCol;
+    }
+    return {randomRow, randomCol};
 }
 
 // Solve the current sudoku and render the answer
@@ -166,7 +199,7 @@ function checkBoardAndUpdate() {
         document.getElementById("score").innerHTML = strArr[0] + ": " + newScore;
         // Prevent player from checking again once it is valid
         document.getElementById("checkBtn").disabled = true;
-        document.getElementById("solveBtn").disabled = true;
+        // document.getElementById("solveBtn").disabled = true;
         alert("You solved it!");
     } else {
         // Wrong solution, update attempts
@@ -393,4 +426,86 @@ function buildSubGridMap(row, col, val, subGridMap) {
     let gridNum = mapCoordToGridNum(row, col);
     let currArr = subGridMap.get(gridNum);
     currArr.push(val);
+}
+
+function findAllSolutions(board) {
+    let rowMap = new Map();
+    for (let i = 0; i < 9; i++) {
+        rowMap.set(i, []); // Initialize rowMap
+    }
+    let colMap = new Map();
+    for (let i = 0; i < 9; i++) {
+        colMap.set(i, []); // Initialize colMap
+    }
+    let subGridMap = new Map();
+    for (let i = 0; i < 9; i++) {
+        subGridMap.set(i, []); // Initialize subGridMap
+    }
+
+    iterateBoard(board, rowMap, colMap, subGridMap);
+    let answer = [];
+    let ret = recursiveSolve2(board, 0, 0, rowMap, colMap, subGridMap, 0, answer);
+    // console.log(answer);
+    // for (let row = 0; row < answer.length; row++) {
+    //     for (let col = 0; col < answer[0].length; col++) {
+    //         board[row][col] = answer[row][col];
+    //     }
+    // }
+    return ret;
+}
+
+// Slower but can find all possibilities recursiveSolve
+function recursiveSolve2(board, row, col, rowMap, colMap, subGridMap, numSolutions, copyBoard) {
+    if (row == board.length - 1 && col == board[0].length) {
+        // Finished board
+        // Copy over valid solution
+        let answer = [];
+        for (let i = 0; i < board.length; i++) {
+            answer.push([...board[i]]);
+        }
+        copyBoard.push(answer);
+        return {solved: true, solutions: numSolutions + 1};
+    }
+    if (col == board[0].length) {
+        // At the end of row
+        row++;
+        col = 0;
+    }
+    if (board[row][col] == '.') {
+        let possibilities = new Map();
+        for (let i = 1; i <= 9; i++) {
+            possibilities.set(i, 1);
+        }
+        let gridNum = mapCoordToGridNum(row, col);
+        checkRow(row, rowMap, possibilities);
+        checkCol(col, colMap, possibilities);
+        checkGrid(gridNum, subGridMap, possibilities);
+        // console.log(possibilities, row, col);
+        let tempSoln = numSolutions;
+        let tempSolved = false;
+        for (let key of possibilities.keys()) {
+            let keyStr = "" + key;
+            // console.log(keyStr);
+            board[row][col] = keyStr;
+            let currRow = rowMap.get(row);
+            currRow.push(keyStr); // Add possibility to current row
+            let currCol = colMap.get(col);
+            currCol.push(keyStr); // Add poss to current column
+            let currGrid = subGridMap.get(gridNum);
+            currGrid.push(keyStr);
+            let ret = recursiveSolve2(board, row, col + 1, rowMap, colMap, subGridMap, tempSoln, copyBoard);
+            if (ret.solved) {
+                tempSolved = true;
+                tempSoln = ret.solutions; // Add solutions for future
+            }
+            // Reset everything every run for next iteration
+            currRow.pop(keyStr);
+            currCol.pop(keyStr);
+            currGrid.pop(keyStr);
+            board[row][col] = '.';
+        }
+        return {solved: tempSolved, solutions: tempSoln}; // Find all possibilities   
+    } else {
+        return recursiveSolve2(board, row, col+1, rowMap, colMap, subGridMap, numSolutions, copyBoard);
+    }
 }
